@@ -10,7 +10,7 @@ Requirements:
 - PPS Number* primary key - required - Prevent duplicates - **implemented** 
 - Date of Birth - required - dd/mm/yyyy - Cannot be future date - Must be over 16 years old - **implemented**
 - Mobile Phone Number - Not required - Must begin with 08 prefix - **implemented**
-3. Display all records added and order by the creation date of the record - **implemented**
+3. Display all records added and order by the creation date of the record - **implemented - records created most recent get displayed first**
 4. If there are no records display message “No records have been created” - **implemented**
 
 Additional features implemented:
@@ -18,8 +18,8 @@ Additional features implemented:
   2. Delete - A record can be deleted with a confirm page prompted before deletion
 
 **Known Bugs:**
-Update functionality: After I have updated the datepicker to display the required date format dd/MM/yyyy, the datepicker doesn't populate the existing 
-date of birth value when the update form is displayed. We need to always update date of birth field when updating a record. 
+Update functionality implementation: After I have updated the datepicker to display the required date format dd/MM/yyyy, the datepicker doesn't populate existing 
+date of birth value when update form is displayed. THis firce us to always update date of birth field when updating a record.
 
 Technologies and tools used:
  - Spring Boot
@@ -33,3 +33,10 @@ Technologies and tools used:
  - Junit, Mockito
  - Maven
  - IDE: Eclipse (Version 2023-12)
+
+**How to run application:**
+1. Please find Jar is located in root folder with file name - demographics-0.0.1-SNAPSHOT.jar
+2. Running the command 'java -jar .\demographics-0.0.1-SNAPSHOT.jar' will run application in default 8080 port.
+3. Once application server started, navigate to **http://localhost:8080/home** to land on the welcome page with links available to navigate the rest of teh pages.
+
+
