@@ -1,5 +1,6 @@
 Initiative: Demographic Details
-   develop a web application to capture and store demographic details for individuals.
+   
+Develop a web application to capture and store demographic details for individuals.
 
 Requirements:
 1. The landing page displays two links:
