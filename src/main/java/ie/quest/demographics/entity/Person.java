@@ -26,12 +26,10 @@ public class Person {
 	@Id
 	@NotNull
 	@Column(length = 25)
-	//@NotBlank(message = "PPSN is mandatory")
 	private String ppsn;
 
 	@NotNull
-	@Column(nullable = false)
-	//@NotBlank(message = "Name is mandatory")
+	@Column(length = 25)
 	private String name;
 
 	/*
@@ -40,7 +38,6 @@ public class Person {
 	 * includes addition/subtraction operations (if needed in the future)
 	 */
 	@NotNull
-	@Column(nullable = false)
 	private LocalDate dob;
 
 	@Column(name="mobile_phone")
