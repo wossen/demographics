@@ -18,12 +18,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ie.quest.demographics.entity.Person;
 import ie.quest.demographics.repo.PersonRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
 @Controller
 @RequestMapping("/demographics")
 public class PersonController {
-	
+
 	Log log = LogFactory.getLog(PersonController.class);
 
 	@Autowired
@@ -35,12 +36,13 @@ public class PersonController {
 			List<Person> personsList = new ArrayList<Person>();
 			personRepo.findAllByCreatedDtmAsc().forEach(personsList::add);
 
+			//* show no records when list is empty
 			if(personsList.isEmpty())
 				model.addAttribute("message", "No records have been created");
 
 			model.addAttribute("persons", personsList);
 		} catch (Exception e) {
-			log.error("Exception when calling findAll. " + e.getMessage());
+			log.error("Exception when calling find all records. " + e.getMessage());
 			model.addAttribute("message", e.getMessage());
 		}
 		return "index";
@@ -56,16 +58,26 @@ public class PersonController {
 	}
 
 	@PostMapping(value="/persons/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public String addNewPerson(Person person, RedirectAttributes redirectAttributes) {
+	public String addNewPerson(Person person, RedirectAttributes redirectAttributes, HttpServletRequest request) {
 		try {
+
+			String referer = request.getHeader("referer");
+			log.info("Request referer url: " + referer);
+
 			if(person.getDob() == null) {
 				redirectAttributes.addFlashAttribute("message", "Date of birth cannot be empty");
 				return "redirect:/demographics/persons/new";
 			}
-				
+
+			//*new records with same PPSN will be rejected
+			if(referer.contains("/new") && !personRepo.findByPpsn(person.getPpsn()).isEmpty()) {
+				redirectAttributes.addFlashAttribute("message", "Record with PPSN already exists.");
+				return "redirect:/demographics/persons/new";
+			} 
 			//Add created dtm only when new person added, then keep the value
-			if(personRepo.findByPpsn(person.getPpsn()).isEmpty())
+			else if(referer.contains("/new")){
 				person.setCreatedDtm(LocalDateTime.now());
+			}
 
 			//Here we modify modified dtm every time a person created or updated
 			person.setModifiedDtm(LocalDateTime.now());
