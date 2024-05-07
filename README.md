@@ -37,6 +37,6 @@ Technologies and tools used:
 **How to run application:**
 1. Please find Jar is located in root folder with file name - demographics-0.0.1-SNAPSHOT.jar
 2. Running the command 'java -jar .\demographics-0.0.1-SNAPSHOT.jar' will run application in default 8080 port.
-3. Once application server started, navigate to **http://localhost:8080/home** to land on the welcome page with links available to navigate the rest of teh pages.
+3. Once application server started, navigate to **http://localhost:8080/home** to land on the welcome page with links available to navigate the rest of the pages.
 
 
