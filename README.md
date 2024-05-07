@@ -41,29 +41,29 @@ Technologies and tools used:
 2. Running the command 'java -jar .\demographics-0.0.1-SNAPSHOT.jar' will run application in default 8080 port.
 3. Once application server started, navigate to **http://localhost:8080/home** to land on the welcome page with links available to navigate the rest of the pages.
 
-**Demo**
-Home page:
+**Demo**  
+Home page:  
 ![image](https://github.com/wossen/demographics/assets/5076199/0cf50fdf-fb20-4c35-af90-f5f7b6904ae2)
 
-Show All
+Show All  
 ![image](https://github.com/wossen/demographics/assets/5076199/4f5fc40e-0534-4c53-ab93-3cc85f6c9f11)
 
-Show All No records
+Show All No records  
 ![image](https://github.com/wossen/demographics/assets/5076199/eda0d428-ea2d-4c39-a02e-5fd68c1d4d2a)
 
-Add New record
+Add New record  
 ![image](https://github.com/wossen/demographics/assets/5076199/97fe4507-2433-4053-b09a-036a6dc82c30)
 
-Add New Record - Validation:
+Add New Record - Validation:  
 ![image](https://github.com/wossen/demographics/assets/5076199/f6cdb707-4656-49a6-b50f-0141de6a6d17)
 
-Update
+Update  
 ![image](https://github.com/wossen/demographics/assets/5076199/eaecdfd5-18bb-4acb-8fc8-93a01cbf66ae)
 
-Delete
+Delete  
 ![image](https://github.com/wossen/demographics/assets/5076199/da7b9ef3-e767-4b0c-8da5-442dba24fcff)
 
-Delete Confirmation
+Delete Confirmation  
 ![image](https://github.com/wossen/demographics/assets/5076199/8899fba4-10d3-4036-b604-d4ff13f9ffab)
 
 
