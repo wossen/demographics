@@ -17,6 +17,7 @@ Requirements:
 Additional features implemented:
   1. Update - we can update existing record using the update icon located at the right side of each record. If we update PPSN, a new record will be created.
   2. Delete - A record can be deleted with a confirm page prompted before deletion
+  3. JPA Data Unit testing to test data layer CRUD functionality
 
 **Known Bugs:**
 Update functionality implementation: After I have updated the datepicker to display the required date format dd/MM/yyyy, the datepicker doesn't populate existing 
