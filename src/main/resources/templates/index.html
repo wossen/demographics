@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <title>Quest - Thymeleaf Demo</title>
+
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+  <!-- Header fragment -->
+  <div th:replace="~{fragments/header :: header}"></div>
+  
+  <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message" role="alert">
+    [[${message}]]
+	  <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
+	    <span aria-hidden="true">×</span>
+	  </button>
+  </div>
+
+ <!-- Displays list of persons if we have persons data in our database -->
+  <div th:if="${persons.size() > 0}">
+  <table class="table table-hover table-responsive-xl">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">PPSN</th>
+        <th scope="col">Name</th>
+        <th scope="col">DOB</th>
+        <th scope="col">Mobile</th>
+        <th scope="col">Created date</th>
+        <th scope="col">Modified date</th>
+      </tr>
+    </thead>
+    <tbody> <!-- Loops through our persons object and displays each field in our person object -->
+      <tr th:each="person : ${persons}">
+        <th scope="row">[[${person.ppsn}]]</th>
+        <td>[[${person.name}]]</td>
+        <td>[[${#temporals.format(person.dob,'dd/MM/yyyy')}]]</td>
+        <td>[[${person.mobilePhone}]]</td>
+        <td>[[${#temporals.format(person.createdDtm,'dd-MM-yyyy HH:mm:ss')}]]</td>
+        <td>[[${#temporals.format(person.modifiedDtm,'dd-MM-yyyy HH:mm:ss')}]]</td>
+        <td>
+          <!-- Edit button -->
+          <a th:href="@{'/demographics/persons/update/' + ${person.ppsn}}" title="Edit this person"
+            class="fa-regular fa-pen-to-square icon-dark btn-edit"></a>
+          <!-- Delete button -->
+          <a th:href="@{'/demographics/persons/delete/' + ${person.ppsn}}" th:personPPSN="${person.ppsn}" id="btnDelete"
+            title="Delete this Person" class="fa-regular fa-trash-can icon-dark btn-delete"></a>
+        </td>  
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+  <!-- footer -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+  
+  <!-- Confirm modal for deleting an existing person -->
+  <div class="modal fade text-center" id="confirmModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <span id="confirmText"></span>
+      </div>
+
+      <div class="modal-footer">
+        <a type="button" id="yesBtn" class="btn btn-danger">Yes</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+<!-- Event handling for delete confim modal -->
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".btn-delete").on("click", function (e) {
+      e.preventDefault();
+      link = $(this);
+
+      personPPSN = link.attr("personPPSN");
+      $("#confirmText").html("Do you want to delete Person \<strong\>" + personPPSN + "\<\/strong\>?");
+      $("#yesBtn").attr("href", link.attr("href"));
+      $("#confirmModal").modal();
+    });
+    
+  });
+</script>
+
+</html>
+

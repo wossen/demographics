@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <title>Quest - Thymeleaf Demo</title>
+
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+  <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+  
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+  <script>
+  $( function() {
+	    $( "#datepicker" ).datepicker({ maxDate: "-16Y" });
+	    $("#datepicker").datepicker("option", "dateFormat", "dd/mm/yy" ).val();
+	  } );
+  </script>
+</head>
+
+<body>
+  <!-- Header -->
+  <div th:replace="~{fragments/header :: header}"></div>
+  
+    <!-- alert panel -->
+    <div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message" role="alert">
+    [[${message}]]
+	  <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
+	    <span aria-hidden="true">×</span>
+	  </button>
+  </div>
+
+<!-- We set the page title in our controller to dynamically display it-->
+<h2 class="text-center">[[${pageTitle}]]</h2>
+
+<!-- 
+	The th:action="@{/demographics/persons/save}" expression directs the form to POST to 
+	the /demographics/persons/save endpoint, while the th:object="${person}" expression declares 
+	the model object to use for collecting the person form data. 
+	The form fields correspond to the fields in the Person object.
+ -->
+<div class="my-3">
+  <form th:action="@{/demographics/persons/save}" method="post" enctype="multipart/form-data" th:object="${person}"
+    style="max-width: 550px; margin: 0 auto">
+
+
+    <div class="p-3">
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="ppsn">PPSN</label>
+        <div class="col-sm-9">
+          <input type="text" th:field="*{ppsn}" minlength="2" maxlength="25" class="form-control"
+            id="ppsn" required/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="name">Name</label>
+        <div class="col-sm-9">
+          <input type="text" th:field="*{name}" minlength="2" maxlength="25" class="form-control"
+            id="name" required/>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="dob">Date of birth</label>
+        <div class="col-sm-9">
+          <input type="text" th:field="*{dob}" id="datepicker" class="form-control" 
+          placeholder="dd/MM/yyyy" readonly="readonly"/>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="mobile">Mobile</label>
+        <div class="col-sm-9">
+          <input type="text" th:field="*{mobilePhone}" minlength="2" maxlength="11" 
+          placeholder="Number should start with 08 and have 10 or 11 digits" pattern="08[0-9]{8,9}" class="form-control"
+          title="Number should start with 08 and have 10 or 11 digits"
+            id="mobile" />
+        </div>
+      </div>
+      
+      <input type="hidden" th:field="*{createdDtm}"/>
+
+      <div class="text-center">
+        <input type="submit" value="Save" id="btnSubmit" class="btn btn-primary btn-sm mr-2" />
+        <input type="button" value="Cancel" id="btnCancel" class="btn btn-secondary btn-sm" />
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+
+<!-- Even handling while cancelling adding/updating a person -->
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#btnCancel").on("click", function () {
+      window.location = "[[@{/demographics/persons}]]";
+    });
+  });
+ 
+  //* Here we change the DOB dd/MM/yyyy format to jave LocalDate compatible yyyy-MM-dd format
+  //* before submiting our form. 
+  $('#btnSubmit').click(function() {
+	  
+	  //$("#datepicker").datepicker("option", "dateFormat", "dd/mm/yy" ).val();
+	 
+	    var newValue = $('#datepicker').val();
+	    
+	    const dateArray = newValue.split("/");
+	    let formattedLocalDate = "";
+	    
+	    if(dateArray.length == 3 && dateArray[2].length < 4){
+	    	formattedLocalDate = newValue;
+	    }
+	    else{
+		    for(let index = dateArray.length - 1; index >= 0; index--) {
+				formattedLocalDate = formattedLocalDate + dateArray[index];
+				if( index > 0)
+					formattedLocalDate = formattedLocalDate + "-";
+			}
+	    }
+	    
+	    $('#datepicker').val(formattedLocalDate);
+	    $('#form1').submit();
+	});
+</script>
+
+</html>
